@@ -1,0 +1,7 @@
+params:
+  - id: dns_domain
+    type: string
+    name: DNS 域名
+    description: "DNS 服务器使用的域名（DNS_SERVER_DOMAIN），保持默认 dns-server 即可，仅在使用条件转发等高级功能时有意义。"
+    default_value: "dns-server"
+    optional: true

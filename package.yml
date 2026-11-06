@@ -1,0 +1,18 @@
+package: community.lazycat.app.technitium
+name: Technitium DNS Server
+version: 15.6.2
+description: "Authoritative and recursive DNS server with a web console, DNS-over-TLS/HTTPS, ad blocking and query logging."
+min_os_version: "1.5.0"
+homepage: https://github.com/TechnitiumSoftware/DnsServer
+author: TechnitiumSoftware
+license: GPL-3.0
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: Technitium DNS Server
+    description: "开源 DNS 服务器：自带 Web 管理台，支持 DoT/DoH、广告拦截与查询日志。"
+  en:
+    name: Technitium DNS Server
+    description: "Authoritative and recursive DNS server with a web console, DoT/DoH, ad blocking and query logging."

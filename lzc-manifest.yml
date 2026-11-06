@@ -1,0 +1,45 @@
+application:
+  subdomain: technitium
+  multi_instance: false
+  # Technitium has its own account system: on first run the web console
+  # shows a setup page to create the admin account, so it is exposed
+  # directly via public_path (per convention for apps with own auth).
+  public_path:
+    - /
+  upstreams:
+    - location: /package-licenses/
+      backend: file:///lzcapp/pkg/content/licenses/
+    - location: /
+      backend: http://dnsserver:5380/
+  ingress:
+    - protocol: tcp
+      port: 53
+      service: dnsserver
+    - protocol: udp
+      port: 53
+      service: dnsserver
+
+services:
+  dnsserver:
+    # upstream: technitium/dns-server:15.6.2
+    image: docker.1ms.run/technitium/dns-server:15.6.2
+    environment:
+      - TZ=Asia/Shanghai
+      - DNS_SERVER_DOMAIN={{ .U.dns_domain }}
+
+usage: |
+  Technitium DNS Server 是一款开源权威/递归 DNS 服务器，
+  自带 Web 管理台，支持 DNS-over-TLS/HTTPS、广告拦截（配置 Blocking）与
+  详细的查询日志。
+
+  使用方法：
+  1. 部署时可填写「DNS 域名」参数（默认 dns-server，一般保持默认即可）。
+  2. 打开应用，首次访问会进入 Setup 页面，自行设置 admin 管理员密码
+     （首次无默认口令，密码由你自己创建）。
+  3. DNS 服务（53 端口 TCP/UDP）由容器直接监听、不经平台入口转发，
+     需在防火墙自行放行；其它设备把 DNS 指向「懒猫微服主机 IP」的 53 端口即可使用。
+  4. 仅使用 Web 管理台的话，无需放行 53 端口。
+
+  说明：
+  - Web 管理台自带账号鉴权（首次自建管理员密码），故按约定开放 public_path。
+  - 未做实机验证：首次建号、DNS 解析与防火墙联通性均未在设备上实测。
